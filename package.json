@@ -1,0 +1,23 @@
+{
+  "name": "eslint-fix",
+  "version": "1.0.0",
+  "description": "Sublime Text 3 Plugin to fix eslint error.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/xwartz/ESLint-Fix.git"
+  },
+  "keywords": [
+    "eslint",
+    "eslint-fix"
+  ],
+  "author": "xwartz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xwartz/ESLint-Fix/issues"
+  },
+  "homepage": "https://github.com/xwartz/ESLint-Fix#readme"
+}
