@@ -169,14 +169,13 @@ class PluginUtils:
 
   @staticmethod
   def get_eslint(root, folders):
-    # 从项目的 node_modules 下查找
+    # get from local node_modules first
     ePath = 'node_modules/.bin/eslint'
     eslint = os.path.join(root, ePath)
 
     if os.path.isfile(eslint):
       return eslint
     else:
-      # 没有找到,上一级目录继续查找
       fp = folders.pop()
       if fp:
         fd = root.split(fp)[0]
@@ -195,7 +194,7 @@ class PluginUtils:
 
     esl = PluginUtils.get_eslint(cwd, folders)
 
-    # 如果没有查找到, 使用 /usr/local/bin/eslint
+    # if not available, then using the settings config
     if esl == False:
       esl = PluginUtils.get_pref("eslint_path").get(platform)
 
