@@ -4,7 +4,7 @@ Sublime Text 3 Plugin to fix eslint errors automatically.
 
 Inspired by https://github.com/TheSavior/ESLint-Formatter.
 
-** Use local `eslint` and `eslintrc` first, if not available, then use the settings config. **
+*Use local `eslint` and `eslintrc` first, if not available, then use the settings config.*
 
 [中文](./README-ZHCN.md)
 
@@ -16,7 +16,7 @@ ESLint (with autoformatting) must be installed on your system before this plugin
 
 ### Plugin installation
 
-First, clone the repo via git to Sublime's package directory. 
+First, clone the repo via git to Sublime's package directory.
 And restart the Sublime.
 
 ## Commands
