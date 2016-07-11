@@ -142,12 +142,12 @@ class PluginUtils:
 
   @staticmethod
   def get_local_eslint(root, folders):
-    # find package.json first
     pkg = os.path.join(root, 'package.json')
-    # get eslint from local node_modules
     esl = 'node_modules/.bin/eslint'
 
+    # find package.json first
     if os.path.isfile(pkg):
+      # get eslint from local node_modules
       return os.path.join(root, esl)
     else:
       fp = folders.pop()
@@ -157,7 +157,6 @@ class PluginUtils:
           return PluginUtils.get_local_eslint(fd, folders)
 
     return None
-
 
   @staticmethod
   def get_eslint_path():
@@ -173,7 +172,6 @@ class PluginUtils:
 
     print("Using eslint path on '" + platform + "': " + esl)
     return esl
-
 
   @staticmethod
   def get_output(cmd, cdir, data):
