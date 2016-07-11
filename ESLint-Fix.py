@@ -70,8 +70,7 @@ class FixEslintCommand(sublime_plugin.TextCommand):
 
       cmd = [node_path, eslint_path, '--fix', data]
 
-      # cmd = ['npm run', 'eslint', '--fix', data]
-      config_path = PluginUtils.get_config_path()
+      config_path = PluginUtils.get_pref("config_path")
       if config_path:
         print("Using configuration from {0}".format(config_path))
         cmd.extend(["--config", config_path])
@@ -82,11 +81,6 @@ class FixEslintCommand(sublime_plugin.TextCommand):
           cdir = "/"
 
       output = PluginUtils.get_output(cmd, cdir, data)
-      # file = open(data, 'w')
-      # file.write(self.view.substr(sublime.Region(0, self.view.size())))
-      # file.close()
-      # eslint_log = PluginUtils.get_output(cmd, cdir, data)
-      # output = open(data, 'r').read()
 
       return output
 
@@ -147,48 +141,22 @@ class PluginUtils:
     return node
 
   @staticmethod
-  def get_config_path():
-    cwd = os.getcwd()
-    folders = cwd.split('/')
-    return PluginUtils.get_eslint_config(cwd, folders)
+  def get_local_eslint(root, folders):
+    # find package.json first
+    pkg = os.path.join(root, 'package.json')
+    # get eslint from local node_modules
+    esl = 'node_modules/.bin/eslint'
 
-  @staticmethod
-  def get_eslint_config(root, folders):
-    cfs = ['.eslintrc.js', '.eslintrc.yaml', '.eslintrc.yml', '.eslintrc.json', '.eslintrc']
-    dir = None
-    for cf in cfs:
-      fd = os.path.join(root, cf)
-      if os.path.isfile(fd):
-        dir = fd
-        return dir
-
-    if dir == None:
-      f = folders.pop()
-      if f:
-        d = root.split(f)[0]
-        if d:
-          dir = PluginUtils.get_eslint_config(d, folders)
-          return dir
-
-    return False
-
-  @staticmethod
-  def get_eslint(root, folders):
-    # get from local node_modules first
-    ePath = 'node_modules/.bin/eslint'
-    eslint = os.path.join(root, ePath)
-
-    if os.path.isfile(eslint):
-      return eslint
+    if os.path.isfile(pkg):
+      return os.path.join(root, esl)
     else:
       fp = folders.pop()
       if fp:
         fd = root.split(fp)[0]
         if fd:
-          eslint = PluginUtils.get_eslint(fd, folders)
-          return eslint
+          return PluginUtils.get_local_eslint(fd, folders)
 
-    return False
+    return None
 
 
   @staticmethod
@@ -197,10 +165,10 @@ class PluginUtils:
     cwd = os.getcwd()
     folders = cwd.split('/')
 
-    esl = PluginUtils.get_eslint(cwd, folders)
+    esl = PluginUtils.get_local_eslint(cwd, folders)
 
-    # if not available, then using the settings config
-    if esl == False:
+    # if local eslint not available, then using the settings config
+    if esl == None:
       esl = PluginUtils.get_pref("eslint_path").get(platform)
 
     print("Using eslint path on '" + platform + "': " + esl)
