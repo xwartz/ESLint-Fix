@@ -109,7 +109,7 @@ class FixEslintCommand(sublime_plugin.TextCommand):
 
 class ESLintFixEventListeners(sublime_plugin.EventListener):
   @staticmethod
-  def on_pre_save(view):
+  def on_post_save(view):
     if PluginUtils.get_pref("format_on_save"):
       extensions = PluginUtils.get_pref("format_on_save_extensions")
       extension = os.path.splitext(view.file_name())[1][1:]
